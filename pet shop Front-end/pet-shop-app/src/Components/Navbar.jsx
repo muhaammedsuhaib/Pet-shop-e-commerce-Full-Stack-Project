@@ -5,25 +5,33 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import { passingProducts } from './Main';
+import axios from 'axios';
 
 
 const Navbar = () => {
     const [openBasic, setOpenBasic] = useState(false);
     const nav=useNavigate()
-    const {userData,setSearch,products}=useContext(passingProducts)
+    const {userData,setSearch,products,search}=useContext(passingProducts)
 
-    const searchinput=(e)=>{
+    const searchinput= async (e)=>{
       e.preventDefault()
-      let inputword=products.filter((x)=>x.ProductName.toLowerCase().includes(e.target.value.toLowerCase()));
+      // setSearch(e.target.value);
+       
+      // const response=await axios.get(`http://localhost:7878/api/users/products/category/${e.target.value}`);
+      // console.log(response);
+
+      // console.log(search);
+
+      let inputword=products.filter((x)=>x.title.toLowerCase().includes(e.target.value.toLowerCase()));
       if(e.target.value.length===0){
         setSearch(null)
       }else if(inputword){
-        console.log(inputword);
         setSearch(inputword)
         nav('/all')
       }else{
         setSearch(null)    
-      }}
+      }
+    }
   
   return (
     <>
@@ -81,7 +89,7 @@ const Navbar = () => {
                 {!userData?< MdOutlinePersonAddAlt1 size={28} style={{margin:'15'}} onClick={()=>nav('/login')}/>:<FaCircleUser size={28} style={{margin:'15'}}  onClick={()=>nav('/login')}/>}      
                 </MDBNavbarLink>
               <MDBNavbarLink>              
-                    <FaCartShopping size={28} style={{margin:'15'}} onClick={()=>nav('/addtocart')}/>
+                    <FaCartShopping size={28} style={{margin:'15'}} onClick={()=>userData?nav('/addtocart'):nav('/login')}/>
                     </MDBNavbarLink>                                  
         </MDBCollapse>
       </MDBContainer>

@@ -48,16 +48,12 @@ const Signup = () => {
         })
         setAuth(!auth)
         setCollect('')
-        console.log(response);
         setTimeout(()=>{
                       nav('/login')
                   },1000) 
         toast.success(response.data.message)
-        console.log(response.data);
       } catch (error) {
-        toast.error(error.response.data.message);
-        console.log(error);
-        
+        toast.error(error.response.data.message);        
       }
     }
   return (

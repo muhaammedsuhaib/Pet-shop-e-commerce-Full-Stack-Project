@@ -51,12 +51,13 @@ export const productGetId = async (req, res, next) => {
 export const userProductByCategory = async (req, res, next) => {                                                                                            
 
         try {
-            const { categoryname } = req.params;
+            const { search } = req.params;
+            console.log(search);
                 // Find products by category
                 const products = await Products.find({
                     $or: [
-                        { category: { $regex: new RegExp(categoryname, 'i') } },
-                        { title: { $regex: new RegExp(categoryname, 'i') } },
+                        { category: { $regex: new RegExp(search, 'i') } },
+                        { title: { $regex: new RegExp(search, 'i') } },
                     ]
                 }).select('title category price');
                 

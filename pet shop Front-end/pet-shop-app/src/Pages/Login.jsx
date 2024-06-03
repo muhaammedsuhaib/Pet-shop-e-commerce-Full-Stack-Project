@@ -40,21 +40,33 @@ const Login = () => {
      
     //    }
       const handleSubmit= async(e)=>{
+        const token = localStorage.getItem('token')
+        const consfig = {
+          headers : {
+            "content-type":"application/json",
+            Authorization:token,
+          }
+      }
        try {
         e.preventDefault()
         const response= await axios.post("http://localhost:7878/api/users/login",{
       email:collect.email,
       password:collect.password
-        })
+        },consfig)
         setTimeout(()=>{        
           setUserData(response.data.user);
+          localStorage.setItem("token",response.data.token)
           nav('/')
         },1000)
         toast.success(response.data.message)
-        console.log(response.data.user);
        } catch (error) {
         toast.error(error.response.data.message)
        }
+      }
+
+      const Logout=()=>{
+        localStorage.clear()
+        setUserData(null)
       }
   return (
     <>
@@ -65,8 +77,8 @@ const Login = () => {
                <div style={{width:"400px",height:"400px" ,padding:"10px",backgroundColor: 'rgba(255, 255, 255, 0.5)',backdropFilter: 'blur(2px)'}} >
                  <form onSubmit={handleSubmit} ref={inputRef}>
                  <h4>Login</h4>
-                 <MDBInput required wrapperClass="mb-4" label='Email'  type='email' onChange={(e)=>setcollect({...collect,email:e.target.value})}/>
-                 <MDBInput required wrapperClass="mb-4"  label='Password' type='password'  onChange={(e)=>setcollect({...collect,password:e.target.value})} />                     
+                 <MDBInput required wrapperClass="mb-4" defaultValue={'ronaldo@gmail.com'} label='Email'  type='email' onChange={(e)=>setcollect({...collect,email:e.target.value})}/>
+                 <MDBInput required wrapperClass="mb-4" defaultValue={12345678} label='Password' type='password'  onChange={(e)=>setcollect({...collect,password:e.target.value})} />                     
                  <div className="d-grid gap-2"> 
                       <MDBBtn rounded color='link' onClick={()=>nav('/sign')} >     Create new account    </MDBBtn>
                       <MDBBtn className='mx-2' color='secondary'  type="submit">    Login   </MDBBtn>   </div>                                                    
@@ -84,7 +96,7 @@ const Login = () => {
                 <p><b><FaCircleUser /> {userData.username}</b></p>
                 <p><b><IoMdMail />{userData.email}</b></p>
                       <MDBBtn rounded className='mx-2'  onClick={()=>nav('/sign')} >     Add new account    </MDBBtn>
-                      <MDBBtn rounded className='mx-2' color='dark' onClick={()=>setUserData(null) } >    Log out    </MDBBtn>    </div>
+                      <MDBBtn rounded className='mx-2' color='dark' onClick={()=>Logout() } >    Log out    </MDBBtn>    </div>
                       <MDBContainer className='p-3'>
         <section className='mb-4'>
           <MDBBtn outline color="light" floating className='m-1' href='https://www.facebook.com/profile.php?id=100073352894286&mibextid=ZbWKwL' role='button' >

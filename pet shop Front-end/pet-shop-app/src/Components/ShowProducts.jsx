@@ -20,24 +20,17 @@ import { passingProducts } from './Main';
 const ShowProducts = () => {
 
     const {id} =useParams()
-    console.log(id);
-
+    
     const [proShow,setProShow]=useState('');
 
 const {userData}=useContext(passingProducts);
     const pro= async (id) =>{
       const respose = await axios.get(`http://localhost:7878/api/users/products/${id}`)
-      console.log(id);
-      console.log(respose.data);
       setProShow(respose.data.product);
     }
 
-    console.log(proShow);
-
     const cartshowing= async(productId)=>{
-      console.log('data set');
     const response = await axios.post(`http://localhost:7878/api/users/products/${userData._id}/cart/${productId}`)
-    console.log(response);
     try {
       toast.success(response.data.message);
     } catch (error) {

@@ -8,13 +8,13 @@ const router = express.Router();
 
 router.get('/',allProducts);
 router.get('/:id',productGetId);
-router.get('/category/:categoryname',userToken,userProductByCategory);
+router.get('/category/:categoryname',userProductByCategory);
 
 
 // add to cart
 router.post('/:userId/cart/:id',addToCart);
 router.get("/:id/cart",viewCart);
-router.patch("/:userid/cart/:id/increment", userToken, incrementCartItemQuantity);
+router.patch("/:userid/cart/:id/increment", incrementCartItemQuantity);
 router.patch("/:userid/cart/:id/decrement", userToken, decrementCartItemQuantity);
 router.delete("/:userId/cart/:itemId/remove", userToken, removeCart);
 

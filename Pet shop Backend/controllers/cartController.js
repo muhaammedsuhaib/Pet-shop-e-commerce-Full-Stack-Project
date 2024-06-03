@@ -21,7 +21,6 @@ export const addToCart = async (req,res,next)=>{
        }
        // check product already add or not add
        let itemCart= await Cart.findOne({userId:user._id,productId:product._id});
- console.log(itemCart);
        if(itemCart){
         //increment quantity
         itemCart.quantity++;
@@ -61,13 +60,13 @@ export const viewCart = async (req, res, next) => {
             return res.status(404).json({message: "User not found"});
         }
             // admin blocking checking
-            if(user.isDeleted == true ) return res.status(400).json({message:"Admin blocked you"});
+            // if(user.isDeleted == true ) return res.status(400).json({message:"Admin blocked you"});
 
 
         if(!user.cart || user.cart.length === 0){
             return res.status(200).json({message: "User cart is empty", data: []});
         }
-
+       console.log(user.cart);
         res.status(200).json(user.cart);
 
     } catch (error) {

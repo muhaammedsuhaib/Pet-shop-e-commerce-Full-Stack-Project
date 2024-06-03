@@ -41,8 +41,7 @@ const Addproducts = () => {
             }, 1000);
     }
     const nav=useNavigate()
-    console.log(products);
-    
+        
   return (<>
   <Admin/>
   <div className='top'>

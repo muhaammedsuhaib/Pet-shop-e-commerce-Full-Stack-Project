@@ -32,23 +32,27 @@ const Main = () => {
     const [address,setAddress]=useState([])
     const [buy,setBuy]=useState([])
     const [adtest,setAdtest]=useState(false)
-
+    const [cart,setCart]=useState([]);
 
     const fetchTasks = async ()=>{
       const response = await axios.get("//localhost:7878/api/users/products")
-      console.log(response.data);
       setProducts(response.data.products);
 
     }
+    
 
     
-    useEffect(() => {
+    
+    
+    useEffect(() => {     
+      
       fetchTasks();
-  }, []);
+  }, [])
+
   return (
     <>
     <BrowserRouter>
-    <passingProducts.Provider value={{products,setProducts,loginData,setLoginData,userData,setUserData,search,setSearch,ItemUpdate,setItemUpdate,address,setAddress,buy,setBuy,adtest,setAdtest}}>
+    <passingProducts.Provider value={{products,setProducts,loginData,setLoginData,userData,setUserData,search,setSearch,ItemUpdate,setItemUpdate,address,setAddress,buy,setBuy,adtest,setAdtest,cart,setCart}}>
    <Navbar/>
     <Routes>
         <Route path='/' element={<Home/>}/>

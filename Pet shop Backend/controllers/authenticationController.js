@@ -12,7 +12,6 @@ export const signup = async (req, res, next) => {
   try {
     // collect value in body
     const checkJoi = await authenticationJoi.validateAsync(req.body);
-console.log(checkJoi);
     // Checking if this email already exists
     const existsUser = await User.findOne({ email: checkJoi.email });
     if (existsUser) {
@@ -37,7 +36,6 @@ console.log(checkJoi);
     return res.status(201).json({ message: "User created successfully", user: newUser });
   } catch (error) {
     // send serve error response
-    console.log(error);
    return res.status(200).json({ message: "Server error" });
     next(error);
   }
@@ -48,11 +46,9 @@ export const login = async (req, res, next) => {
  
     //collect data in body
     const { email, password } = req.body;
-    console.log(email,password);
     // check email found or not found
     const user = await User.findOne({ email:email });
      // admin blocking checking
-     console.log(user);
      if(user.isDeleted === true ) return res.status(210).json({message:"Admin Blocked"});
     if (!user) {
       // user not found response send
@@ -75,7 +71,7 @@ export const login = async (req, res, next) => {
     res
       .cookie("Access_Token", token, { httpOnly: true, expire: expiryDate })
       .status(200)
-      .json({message:'User Login success fully',user:data});
+      .json({message:'User Login success fully',user:data , token});
   } catch (error) {
     // send response server error
     res.status(500).json({ message: "Server error" });

@@ -6,7 +6,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 const AllUsers  = () => {
   const {loginData}=useContext(passingProducts)
-  console.log(loginData);
   return (
   <div>
     <Admin/>
