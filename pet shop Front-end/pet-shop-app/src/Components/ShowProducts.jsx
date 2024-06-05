@@ -24,6 +24,7 @@ const ShowProducts = () => {
     const [proShow,setProShow]=useState('');
 
 const {userData}=useContext(passingProducts);
+
     const pro= async (id) =>{
       const respose = await axios.get(`http://localhost:7878/api/users/products/${id}`)
       setProShow(respose.data.product);
@@ -32,6 +33,16 @@ const {userData}=useContext(passingProducts);
     const cartshowing= async(productId)=>{
     const response = await axios.post(`http://localhost:7878/api/users/products/${userData._id}/cart/${productId}`)
     try {
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(response.data.message);
+    }
+    }
+
+    const addtowishlist= async (productId)=>{
+  const response =await axios.post(`http://localhost:7878/api/users/products/${userData._id}/wishlists/${productId}`)
+    try {
+      console.log(response);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(response.data.message);
@@ -51,7 +62,7 @@ const {userData}=useContext(passingProducts);
     <br/><br/>   
 <div className="container p-3" >
           <MDBCard style={{ maxWidth: '100%' }}>
-        <p className='text-end p-2'><MDBIcon fas icon="heart" size='2x' /></p> 
+        <p className='text-start p-2'><MDBIcon fas icon="heart" size='2x'onClick={()=>userData? addtowishlist(proShow._id):nav('/login')} /></p> 
       <MDBRow className='g-0'>
         <MDBCol md='3'>
           <MDBCardImage src={proShow.image} alt='...' fluid />

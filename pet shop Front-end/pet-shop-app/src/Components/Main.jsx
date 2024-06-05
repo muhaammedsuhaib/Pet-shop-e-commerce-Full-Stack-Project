@@ -34,6 +34,7 @@ const Main = () => {
     const [buy,setBuy]=useState([])
     const [adtest,setAdtest]=useState(false)
     const [cart,setCart]=useState([]);
+    const [wishlist,setWishlist]=useState([]);
 
     const fetchTasks = async ()=>{
       const response = await axios.get("//localhost:7878/api/users/products")
@@ -53,7 +54,7 @@ const Main = () => {
   return (
     <>
     <BrowserRouter>
-    <passingProducts.Provider value={{products,setProducts,loginData,setLoginData,userData,setUserData,search,setSearch,ItemUpdate,setItemUpdate,address,setAddress,buy,setBuy,adtest,setAdtest,cart,setCart}}>
+    <passingProducts.Provider value={{products,setProducts,loginData,setLoginData,userData,setUserData,search,setSearch,ItemUpdate,setItemUpdate,address,setAddress,buy,setBuy,adtest,setAdtest,cart,setCart,wishlist,setWishlist}}>
    <Navbar/>
     <Routes>
         <Route path='/' element={<Home/>}/>

@@ -1,10 +1,46 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBRipple } from "mdb-react-ui-kit";
+import axios from "axios";
+import { passingProducts } from "./Main";
+import {
+    MDBCard,
+    MDBCardBody,
+    MDBBtn,
+    MDBCardImage,
+  } from "mdb-react-ui-kit";
+import { useNavigate } from "react-router-dom";
 
 function Wishlist() {
+
+    const {userData,adtest,wishlist,setWishlist}=useContext(passingProducts);
+     
+    const nav=useNavigate();
+    const isEmpty= wishlist?.length===0;
+  const fetchwishlist = async () => {
+    if (!userData?._id) return; // Ensure userData._id is available before making the request
+    try {
+      const response = await axios.get(`http://localhost:7878/api/users/products/${userData._id}/wishlist`);
+      setWishlist(response.data); // Directly set the cart to the fetched data
+      console.log(response.data);
+    } catch (error) {
+      console.error("Failed to fetch cart data:", error);
+      // Optionally handle the error (e.g., show a notification to the user)
+    }
+  };
+  useEffect(() => {
+    fetchwishlist();
+  }, []);
+  console.log(wishlist);
+
   return (<>
   <br/>
-    <MDBContainer fluid className="my-5  text-center">
+  <div style={{width:'100%', height:'700px',overflow:'auto'}}>
+    {isEmpty?<>
+      <h4 style={{color:'gray'}}>Hey {userData?.username}, your cart is empty! Add something now."</h4> 
+  <MDBBtn  rounded  className='m-2' color='white' onClick={()=>nav('/all')} >Shop now</MDBBtn>
+    </> :<>
+       <div> 
+       <MDBContainer fluid className="my-5  text-center">
       <h4 className="mt-4 mb-5">
         <strong>Wishlist Products</strong>
       </h4>
@@ -216,6 +252,10 @@ function Wishlist() {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+        </div>    
+    </> } 
+  </div>
+
     </>
   );
 }

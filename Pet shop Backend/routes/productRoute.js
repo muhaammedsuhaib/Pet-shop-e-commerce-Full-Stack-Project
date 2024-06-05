@@ -2,7 +2,7 @@ import express from "express";
 import { userToken } from "../middlewares/userMiddlewares.js";
 import { productGetId,allProducts,userProductByCategory } from "../controllers/productcontroller.js";
 import { addToCart, decrementCartItemQuantity, incrementCartItemQuantity, removeCart, viewCart } from "../controllers/cartController.js";
-import { addWishlist } from "../controllers/wishlistCotroller.js";
+import { addWishlist, removeWishlist, viewWishlist } from "../controllers/wishlistCotroller.js";
 import { OrderDetails, payment, success } from "../controllers/userPaymentController.js";
 const router = express.Router();
 
@@ -19,8 +19,9 @@ router.patch("/:userid/cart/:id/decrement", userToken, decrementCartItemQuantity
 router.delete("/:userId/cart/:itemId/remove", userToken, removeCart);
 
 // add Wishlist
-router.post('/:userId/wishlists/:id',userToken,addWishlist);
-
+router.post('/:userId/wishlists/:id',addWishlist);
+router.get("/:id/wishlist",viewWishlist);
+router.delete("/:userId/wishlist/:itemId/remove", removeWishlist);
 
 
 

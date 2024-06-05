@@ -43,6 +43,7 @@ const Addtocart = () => {
   useEffect(() => {
     fetchCart();
   }, []);
+  console.log(isEmpty);
 
 const increment= async()=>{
 
@@ -115,7 +116,7 @@ const increment= async()=>{
 <section className="h-100" style={{ backgroundColor: "#eee" }}>
   <MDBContainer className="py-5 h-100">
     <MDBRow className="justify-content-center align-items-center h-100">
-      <MDBCol md="12">
+      <MDBCol md="1">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <MDBTypography tag="h3" className="fw-normal mb-0 text-black">
             Shopping Cart
