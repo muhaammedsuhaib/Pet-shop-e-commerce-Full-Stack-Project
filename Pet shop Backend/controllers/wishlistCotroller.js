@@ -90,42 +90,45 @@ export const viewWishlist = async (req, res, next) => {
 
 export const removeWishlist = async (req, res, next) => {
   try {
-      const { userId, itemId } = req.params;
+    const { userId, itemId } = req.params;
+    console.log(userId, itemId);
 
-      // Find user by ID
-      const user = await User.findById(userId);
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    // Find user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-       // admin blocking checking
-       if(user.isDeleted == true ) return next(errorHandler(400, "Admin blocked you"));
+    // Admin blocking checking
+    if (user.isDeleted) {
+      return next(new Error('Admin blocked you'));
+    }
 
-      // Find product by ID
-      const product = await Products.findById(itemId);
-      if (!product) {
-          return res.status(400).json({ message: "Product not found" });
-      }
+    // Find product by ID
+    const product = await Products.findById(itemId);
+    console.log(product);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-      // Find and delete wishlist item
-      const wishlistItem = await Wishlist.findOneAndDelete({ userId: user._id, productId: product._id });
-      
-      if (!wishlistItem) {
-          return res.status(404).json({ message: "Product not found in the user's wishlist" });
-      }
+    // Find and delete wishlist item
+    const wishlistItem = await Wishlist.findOneAndDelete({ userId: user._id, productId: product._id });
+    if (!wishlistItem) {
+      return res.status(404).json({ message: "Product not found in the user's wishlist" });
+    }
 
-      const wishlistItemIndex = user.wishlist.findIndex(item => item.equals (wishlistItem._id));
+    // Find the index of the wishlist item in the user's wishlist array
+    const wishlistItemIndex = user.wishlist.findIndex(item => item.equals(wishlistItem._id));
 
-      // If the wishlist item is found, remove it from the user's wishlist array
-      if (wishlistItemIndex !== -1) {
-          user.wishlist.splice(wishlistItemIndex, 1);
-          await user.save();
-      }
+    // If the wishlist item is found, remove it from the user's wishlist array
+    if (wishlistItemIndex !== -1) {
+      user.wishlist.splice(wishlistItemIndex, 1);
+      await user.save();
+    }
 
-
-      return res.status(200).json({ message: "Product removed from wishlist successfully" });
+    return res.status(200).json({ message: "Product removed from wishlist successfully" });
 
   } catch (error) {
-      return next(error);
+    return next(error);
   }
 };

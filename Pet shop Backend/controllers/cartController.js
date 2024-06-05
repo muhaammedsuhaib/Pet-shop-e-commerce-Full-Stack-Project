@@ -75,50 +75,39 @@ export const viewCart = async (req, res, next) => {
 }
 
 // Add cart quantity
-
-export const incrementCartItemQuantity = async (req, res, next) => {
-    try {
+export const incrementCartItemQuantity = async (req, res) => {
+    
         const userId = req.params.userid;
         const productId = req.params.id;
-        const  {quantityIncrement}  = req.body;  
+        // const  {quantityIncrement}  = req.body;  
 
 
         // Find user by ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ status: "error", message: "User not found" });
         }
-
-         // admin blocking checking
-         if(user.isDeleted == true ) return res.status(400).json({message:"Admin blocked you"});
 
         // Find product by ID
         const product = await Products.findById(productId);
         if (!product) {
-            return res.status(404).json({ message: "Product not found" });
+            return res.status(404).json({ status: "error", message: "Product not found" });
         }
 
         // Find or create cart item
-        let cartItem = await Cart.findOne({ userId: user._id, productId: product._id });
+        let cartItem = await Cart.findOne({ users: user._id, products: product._id });
         if (cartItem) {
-            // If the product already exists, increment the quantity
-            if(typeof quantityIncrement !== "number"){
-                return res.status(400).json({message: "Bad request"})
-            }else{
-                cartItem.quantity += quantityIncrement;
-                await cartItem.save();
+            if(product.stock > 0){
 
+                cartItem.quantity ++;
+                await cartItem.save();
             }
+          else res.status(500).json({ status: "error", message: "No stock"})
+
         }
 
-        res.status(201).json({ message: "Quantity incremented" });
-
-    } catch (error) {
-        console.error("Error:", error);
-        return next(error);
-    }
+        res.status(201).json({ status: "Ok" , message: "Quantity incremented" });
 };
-
 
 export const decrementCartItemQuantity = async (req, res, next) => {
     try {
@@ -176,22 +165,22 @@ export const removeCart = async (req, res, next) => {
         // Find user by ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).json({ message: "User not found" });
+            return res.status(200).json({ message: "User not found" });
         }
            // admin blocking checking
-           if(user.isDeleted == true ) return res.status(400).json({message:"Admin blocked you"});
+        //    if(user.isDeleted == true ) return res.status(400).json({message:"Admin blocked you"});
                                                                    
         // Find product by ID
         const product = await Products.findById(itemId);
         if (!product) {
-            return res.status(400).json({ message: "Product not found" });
+            return res.status(200).json({ message: "Product not found" });
         }
 
         // Find and delete cart item for the specific user and product
         const cartItem = await Cart.findOneAndDelete({ userId: user._id, productId: product._id });
 
         if (!cartItem) {
-            return res.status(400).json({ message: "Product not found in the user's cart" });
+            return res.status(200).json({ message: "Product not found in the user's cart" });
         }
 
         // Find the index of the cart item in the user's cartItems array

@@ -89,7 +89,7 @@ const Navbar = () => {
                 <FaHeart size={28} style={{margin:'10'}}  onClick={()=>userData?nav('/wishlist'):nav('/login')}/>   
                 </MDBNavbarLink>
             <MDBNavbarLink >
-                {!userData?< MdOutlinePersonAddAlt1 size={28} style={{margin:'15'}} onClick={()=>nav('/login')}/>:<FaCircleUser size={28} style={{margin:'15'}}  onClick={()=>nav('/login')}/>}      
+                {!userData? <MDBIcon fas icon="user-plus" animate='beat' style={{margin:'16',fontSize:'25px'}} onClick={()=>nav('/login')}/>:<FaCircleUser size={28} style={{margin:'15'}}  onClick={()=>nav('/login')}/>}      
                 </MDBNavbarLink>
               <MDBNavbarLink>              
                     <FaCartShopping size={28} style={{margin:'15'}} onClick={()=>userData?nav('/addtocart'):nav('/login')}/>

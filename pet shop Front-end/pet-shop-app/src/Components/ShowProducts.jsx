@@ -23,7 +23,7 @@ const ShowProducts = () => {
     
     const [proShow,setProShow]=useState('');
 
-const {userData}=useContext(passingProducts);
+const {userData,adtest,setAdtest}=useContext(passingProducts);
 
     const pro= async (id) =>{
       const respose = await axios.get(`http://localhost:7878/api/users/products/${id}`)
@@ -33,6 +33,7 @@ const {userData}=useContext(passingProducts);
     const cartshowing= async(productId)=>{
     const response = await axios.post(`http://localhost:7878/api/users/products/${userData._id}/cart/${productId}`)
     try {
+      setAdtest(!adtest)
       toast.success(response.data.message);
     } catch (error) {
       toast.error(response.data.message);

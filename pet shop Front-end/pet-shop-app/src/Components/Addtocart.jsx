@@ -24,17 +24,15 @@ import {
 } from "mdb-react-ui-kit";
 
 const Addtocart = () => {
-  const {userData,adtest,cart,setCart}=useContext(passingProducts)
+  const {userData,adtest,cart,setCart,setAdtest}=useContext(passingProducts)
   const nav=useNavigate()
   // const [auth,setAuth]=useState(false)
-  
-  const isEmpty= cart?.length===0;
+
   const fetchCart = async () => {
     if (!userData?._id) return; // Ensure userData._id is available before making the request
     try {
       const response = await axios.get(`http://localhost:7878/api/users/products/${userData._id}/cart`);
       setCart(response.data); // Directly set the cart to the fetched data
-      console.log(response.data);
     } catch (error) {
       console.error("Failed to fetch cart data:", error);
       // Optionally handle the error (e.g., show a notification to the user)
@@ -42,12 +40,17 @@ const Addtocart = () => {
   };
   useEffect(() => {
     fetchCart();
-  }, []);
-  console.log(isEmpty);
+  }, [cart,setCart]);
+  // console.log(isEmpty);
 
-const increment= async()=>{
-
-  const response = axios.patch(``)
+const increment= async(id)=>{
+  const response= await axios.patch(`http://localhost:7878/api/users/products/${userData?._id}/cart/${id}/increment`);
+  try {
+    console.log(response);
+    toast.success(response.data.message);
+  } catch (error) {
+    toast.error(response.data.message);
+  }
 }
 
 
@@ -105,18 +108,31 @@ const increment= async()=>{
 //       }
 //     }
 //   }
+
+
+const deletecart = async (itemId)=>{
+  const response= await axios.delete(`http://localhost:7878/api/users/products/${userData._id}/cart/${itemId}/remove`)
+  try {
+    toast.success(response.status);
+    console.log(response);
+    setAdtest(!adtest)
+    // setWishlist(response.data)
+    // console.log(response);
+    
+  } catch (error) {
+    toast.error(response.data.message);
+  }
+
+}
   return (<>
   <br /><br />
   <div style={{width:'100%', height:'700px',overflow:'auto'}}>
-    {isEmpty?<>
-      <h4 style={{color:'gray'}}>Hey {userData?.username}, your cart is empty! Add something now."</h4> 
-  <MDBBtn  rounded  className='m-2' color='white' onClick={()=>nav('/all')} >Shop now</MDBBtn>
-    </> :<>
-       <div>
+    {Array.isArray(cart)&&cart.length !==0 ?<>
+      <div>
 <section className="h-100" style={{ backgroundColor: "#eee" }}>
   <MDBContainer className="py-5 h-100">
     <MDBRow className="justify-content-center align-items-center h-100">
-      <MDBCol md="1">
+      <MDBCol md="12">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <MDBTypography tag="h3" className="fw-normal mb-0 text-black">
             Shopping Cart
@@ -133,6 +149,7 @@ const increment= async()=>{
 
         {cart?.map((item)=>(
         <MDBCard className="rounded-3 mb-4">
+                <p className='text-end p-1 ' > <MDBBtn color='link'><MDBIcon fas icon="times" animate='fade' style={{fontSize:'26px'}} onClick={()=>deletecart(item.productId._id)} /></MDBBtn> </p>
           <MDBCardBody className="p-4">
             <MDBRow className="justify-content-between align-items-center">
               <MDBCol md="2" lg="2" xl="2">
@@ -149,7 +166,7 @@ const increment= async()=>{
               </MDBCol>
               <MDBCol md="3" lg="3" xl="2"
                 className="d-flex align-items-center justify-content-around">
-                <MDBBtn color="link" className="px-2">
+                <MDBBtn color="link" className="px-2" onClick={()=>increment(item.productId._id)}>
                   <MDBIcon fas icon="minus" />
                 </MDBBtn>
 
@@ -195,6 +212,11 @@ const increment= async()=>{
 </section>
 
           </div>
+     
+    </> :<>
+    <br />
+    <h4 style={{color:'gray'}}>Hey {userData?.username}, your cart is empty! Add something now."</h4> 
+  <MDBBtn  rounded  className='m-2' color='white' onClick={()=>nav('/all')} >Shop now</MDBBtn>
     
     </> } 
   </div>
