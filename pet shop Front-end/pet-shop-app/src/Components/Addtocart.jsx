@@ -14,6 +14,14 @@ import { toast,ToastContainer } from 'react-toastify';
 import Navbar from './Navbar'
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import {
+  MDBCol,
+  MDBContainer,
+  MDBIcon,
+  MDBInput,
+  MDBRow,
+  MDBTypography,
+} from "mdb-react-ui-kit";
 
 const Addtocart = () => {
   const {userData,adtest,cart,setCart}=useContext(passingProducts)
@@ -97,38 +105,95 @@ const increment= async()=>{
 //     }
 //   }
   return (<>
-  <br /><br /><br />
+  <br /><br />
   <div style={{width:'100%', height:'700px',overflow:'auto'}}>
     {isEmpty?<>
       <h4 style={{color:'gray'}}>Hey {userData?.username}, your cart is empty! Add something now."</h4> 
   <MDBBtn  rounded  className='m-2' color='white' onClick={()=>nav('/all')} >Shop now</MDBBtn>
     </> :<>
-
-    {cart?.map((item)=>(
-       <div class="container">
-            <MDBCard>   
-            <div class="container" style={{textAlign:'right'}} ><MDBBtn color='wihte'><MdDeleteForever size={30}/></MDBBtn></div>     
-      <MDBCardBody>      
-      <div class="container">
-    <div class="row">
-      <div class="col-sm-1">
-      <p><b>{cart?.category}</b></p>
-      <MDBCardImage  src={item?.productId?.image} style={{width:'500px'}} fluid />
-      </div>
-      <div class="col-sm-6">
-      <div style={{color:'Highlight',textDecorationLine:'underline'}} ><b>{item?.productId?.title}</b></div> 
-      <MDBBtn   rounded  className='mx-2' color='white' >  <FaCircleMinus size={20} /> </MDBBtn>
-        <b >Quantity:{item?.quantity}</b>
-      <MDBBtn   rounded  className='mx-2' color='white' >  <FaCirclePlus size={20}/> </MDBBtn>   <br />
-      <b>₹{item?.quantity * item?.productId?.price}</b> <br />
-      <MDBBtn  rounded  className='m-2'  >BUY Product</MDBBtn>
-      </div>
-    </div>
-  </div> 
-  </MDBCardBody>
-    </MDBCard>
+       <div>
+<section className="h-100" style={{ backgroundColor: "#eee" }}>
+  <MDBContainer className="py-5 h-100">
+    <MDBRow className="justify-content-center align-items-center h-100">
+      <MDBCol md="12">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <MDBTypography tag="h3" className="fw-normal mb-0 text-black">
+            Shopping Cart
+          </MDBTypography>
+          <div>
+            <p className="mb-0">
+              <span className="text-muted">Sort by:</span>
+              <a href="#!" className="text-body">
+                price <i className="fas fa-angle-down mt-1"></i>
+              </a>
+            </p>
           </div>
-    ))}
+        </div>
+
+        {cart?.map((item)=>(
+        <MDBCard className="rounded-3 mb-4">
+          <MDBCardBody className="p-4">
+            <MDBRow className="justify-content-between align-items-center">
+              <MDBCol md="2" lg="2" xl="2">
+                <MDBCardImage className="rounded-3" fluid
+                  src={item?.productId?.image}
+                  alt={item?.productId?.title} />
+              </MDBCol>
+              <MDBCol md="3" lg="3" xl="3">
+                <p className="lead fw-normal mb-2">{item?.productId?.title}</p>
+                {/* <p>
+                  <span className="text-muted">Size: </span>M{" "}
+                  <span className="text-muted">Color: </span>Grey
+                </p> */}
+              </MDBCol>
+              <MDBCol md="3" lg="3" xl="2"
+                className="d-flex align-items-center justify-content-around">
+                <MDBBtn color="link" className="px-2">
+                  <MDBIcon fas icon="minus" />
+                </MDBBtn>
+
+                <MDBInput min={0} defaultValue={item?.quantity} type="number" size="sm" />
+
+                <MDBBtn color="link" className="px-2">
+                  <MDBIcon fas icon="plus" />
+                </MDBBtn>
+              </MDBCol>
+              <MDBCol md="3" lg="2" xl="2" className="offset-lg-1">
+                <MDBTypography tag="h5" className="mb-0">
+                ₹{item?.quantity * item?.productId?.price}
+                </MDBTypography>
+              </MDBCol>
+              <MDBCol md="1" lg="1" xl="1" className="text-end">
+                <a href="#!" className="text-danger">
+                  <MDBIcon fas icon="trash text-white" size="lg" />
+                </a>
+              </MDBCol>
+            </MDBRow>
+          </MDBCardBody>
+        </MDBCard>
+      ))}
+        {/* <MDBCard className="mb-4">
+          <MDBCardBody className="p-4 d-flex flex-row">
+            <MDBInput label="Discound code" wrapperClass="flex-fill" size="lg" />
+            <MDBBtn className="ms-3" color="warning" outline size="lg">
+              Apply
+            </MDBBtn>
+          </MDBCardBody>
+        </MDBCard> */}
+
+        <MDBCard>
+          <MDBCardBody>
+            <MDBBtn className="ms-0" color="warning" block size="lg">
+              Apply
+            </MDBBtn>
+          </MDBCardBody>
+        </MDBCard>
+      </MDBCol>
+    </MDBRow>
+  </MDBContainer>
+</section>
+
+          </div>
     
     </> } 
   </div>

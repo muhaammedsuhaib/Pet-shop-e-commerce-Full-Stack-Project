@@ -19,6 +19,7 @@ import Addproducts from './Addproducts';
 import AddAddress from './AddAddress';
 import Navbar from './Navbar';
 import axios from 'axios';
+import Wishlist from './Wishlist';
 
 
 export const passingProducts=createContext()
@@ -70,6 +71,7 @@ const Main = () => {
         <Route path='/edit' element={<EditProduct/>}/>
         <Route path='/add' element={<Addproducts/>}/>
         <Route path='/address' element={<AddAddress/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
     </Routes>
     <Footer/>
     </passingProducts.Provider>   

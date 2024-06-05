@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarToggler, MDBIcon, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink, MDBCollapse,MDBDropdown,MDBDropdownToggle,MDBDropdownMenu,MDBDropdownItem} from 'mdb-react-ui-kit';
-import { FaCircleUser } from "react-icons/fa6";
+import { FaCircleUser, FaHeart } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
@@ -85,6 +85,9 @@ const Navbar = () => {
           <input type='search' className='form-control' placeholder='Search' aria-label='Search' onChange={searchinput} />
           
           </form>          
+            <MDBNavbarLink >
+                <FaHeart size={28} style={{margin:'10'}}  onClick={()=>userData?nav('/wishlist'):nav('/login')}/>   
+                </MDBNavbarLink>
             <MDBNavbarLink >
                 {!userData?< MdOutlinePersonAddAlt1 size={28} style={{margin:'15'}} onClick={()=>nav('/login')}/>:<FaCircleUser size={28} style={{margin:'15'}}  onClick={()=>nav('/login')}/>}      
                 </MDBNavbarLink>
