@@ -13,25 +13,26 @@ const router=express.Router();
 router.post("/login", adminLogin);
 
 // admin routes
+
 // view all users
-router.get("/viewAllUsers", adminToken,allUsers); 
+router.get("/viewAllUsers",allUsers); 
 // view user by id
 router.get("/user/:id", adminToken,  adminViewUserById); 
 // search user name
 router.get("/user/findName/:username", adminToken, adminFindUserName);
 // block user
-router.put("/user/block/:userId", adminToken, adminBlockUserById);
+router.put("/user/block/:userId", adminBlockUserById);
 // un block user
-router.put("/user/unblock/:userId",adminToken,adminUnBlockUserById);
+router.put("/user/unblock/:userId",adminUnBlockUserById);
 
 
 
 
 
 // product creating
-router.post("/createProducts", adminToken,uploadImage, createProducts); 
+router.post("/createProducts",uploadImage, createProducts); 
 // view all products
-router.get("/products", adminToken, adminViewAllProducts);
+router.get("/products", adminViewAllProducts);
 // view spesific product
 router.get("/products/:productId", adminToken, adminViewProductById);
 // view product category

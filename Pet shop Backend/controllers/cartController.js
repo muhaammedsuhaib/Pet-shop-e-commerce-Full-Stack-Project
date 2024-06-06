@@ -76,26 +76,26 @@ export const viewCart = async (req, res, next) => {
 
 // Add cart quantity
 export const incrementCartItemQuantity = async (req, res) => {
-    
+
+    try {
         const userId = req.params.userid;
         const productId = req.params.id;
-        // const  {quantityIncrement}  = req.body;  
 
-
-        // Find user by ID
+        console.log(userId);
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ status: "error", message: "User not found" });
+            return res.status(200).json({ status: "error", message: "User not found" });
         }
 
         // Find product by ID
         const product = await Products.findById(productId);
         if (!product) {
-            return res.status(404).json({ status: "error", message: "Product not found" });
+            return res.status(200).json({ status: "error", message: "Product not found" });
         }
 
         // Find or create cart item
         let cartItem = await Cart.findOne({ users: user._id, products: product._id });
+        console.log(cartItem);
         if (cartItem) {
             if(product.stock > 0){
 
@@ -107,7 +107,14 @@ export const incrementCartItemQuantity = async (req, res) => {
         }
 
         res.status(201).json({ status: "Ok" , message: "Quantity incremented" });
+        
+    } catch (error) {
+        return res.status(500).json({message:'server error'})
+    }
+       
 };
+
+
 
 export const decrementCartItemQuantity = async (req, res, next) => {
     try {

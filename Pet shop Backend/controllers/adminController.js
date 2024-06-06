@@ -141,16 +141,18 @@ export const adminBlockUserById = async (req, res, next) => {
 export const adminUnBlockUserById = async (req, res, next) => {
     try {
         const { userId } = req.params;
+        console.log("afsfs",userId);
 
-        const userUnBlock = await User.findOneAndUpdate({_id: userId}, {$set: {isDeleted: false}});
+        const userUnBlock = await User.findByIdAndUpdate({_id: userId}, {$set: {isDeleted: false}});
 
         if (!userUnBlock) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(200).json({ message: "User not found" });
         }
 
         res.status(200).json({ message: "User un Blocked successfully" });
 
     } catch (error) {
         return next(error);
+        res.status(500).json({message:'Server Error'});
     }
 }

@@ -8,6 +8,7 @@ cloudinary.config({
   api_key: '825114872454561', 
   api_secret: 'bRlU3tiASP-RAbLuBtsBxGJUWko' 
 });
+
 export const addWishlist = async (req, res, next) => {
   try {
     const userId = req.params.userId;

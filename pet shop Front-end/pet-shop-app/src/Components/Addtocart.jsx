@@ -43,15 +43,16 @@ const Addtocart = () => {
   }, [cart,setCart]);
   // console.log(isEmpty);
 
-const increment= async(id)=>{
-  const response= await axios.patch(`http://localhost:7878/api/users/products/${userData?._id}/cart/${id}/increment`);
-  try {
-    console.log(response);
-    toast.success(response.data.message);
-  } catch (error) {
-    toast.error(response.data.message);
-  }
-}
+// const increment= async(id)=>{
+//   console.log('jhh');
+//   const response= await axios.patch(`http://localhost:7878/api/users/products/${userData?._id}/cart/${id}/increment`);
+//   try {
+//     console.log(response);
+//     toast.success(response.data.message);
+//   } catch (error) {
+//     toast.error(response.data.message);
+//   }
+// }
 
 
 
@@ -166,14 +167,14 @@ const deletecart = async (itemId)=>{
               </MDBCol>
               <MDBCol md="3" lg="3" xl="2"
                 className="d-flex align-items-center justify-content-around">
-                <MDBBtn color="link" className="px-2" onClick={()=>increment(item.productId._id)}>
+                <MDBBtn color="link" className="px-2" >
                   <MDBIcon fas icon="minus" />
                 </MDBBtn>
 
                 <MDBInput min={0} defaultValue={item?.quantity} type="number" size="sm" />
 
                 <MDBBtn color="link" className="px-2">
-                  <MDBIcon fas icon="plus" />
+                  <MDBIcon fas icon="plus"  />
                 </MDBBtn>
               </MDBCol>
               <MDBCol md="3" lg="2" xl="2" className="offset-lg-1">

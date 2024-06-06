@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import {
     MDBInput,
     MDBBtn,
@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Addproducts = () => {
+
+   const [addproduct,setAddproduct]=useState('');
+
     const {products,setProducts}=useContext(passingProducts)
     const inputRef=useRef(null)
     const handleSubmit=(e)=>{
@@ -42,13 +45,15 @@ const Addproducts = () => {
     }
     const nav=useNavigate()
         
+    
+   
   return (<>
   <Admin/>
   <div className='top'>
     <div className='container' style={{width:"100%",height:"100vh",display:"flex",justifyContent:"center",alignItems:"center"}}>
         <div style={{width:"500px",height:"500px" ,padding:"10px",backgroundColor: 'rgba(255, 255, 255, 0.5)',backdropFilter: 'blur(2px)'}}>
            <form onSubmit={handleSubmit} ref={inputRef}>
-      <MDBInput wrapperClass='mb-4' required type='text'  label='Product name' name='pName' />
+      <MDBInput wrapperClass='mb-4' required type='text'  label='Product name' onClick={(e)=>setAddproduct([...addproduct,{title:e.target.value}])} />
       <MDBInput wrapperClass='mb-4' required type='number' label='Product Stock'  name='pStock'/>
       <MDBRadio name='inlineRadio'  required id='inlineRadio1' value='Cat' label='Cat' inline />
       <MDBRadio name='inlineRadio'  required id='inlineRadio2' value='Dog' label='Dog' inline />

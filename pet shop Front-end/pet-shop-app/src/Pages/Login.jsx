@@ -9,6 +9,7 @@ import { IoMdMail } from "react-icons/io"
 import './Style.css'
 import Navbar from '../Components/Navbar'
 import Swal from 'sweetalert2';
+
 import axios from "axios";
 const Login = () => {
 
@@ -72,11 +73,11 @@ const Login = () => {
     <>
     <div className='top'>          
                 {!userData?(<>
-
                   <div className='container' style={{width:"100%",height:"100vh",display:"flex",justifyContent:"center",alignItems:"center"}} >
                <div style={{width:"400px",height:"400px" ,padding:"10px",backgroundColor: 'rgba(255, 255, 255, 0.5)',backdropFilter: 'blur(2px)'}} >
-                 <form onSubmit={handleSubmit} ref={inputRef}>
+                 <form onSubmit={handleSubmit}>
                  <h4>Login</h4>
+                <p className='text-end'><MDBIcon fas icon="lock" onClick={()=>nav('/adminlogin')} /></p> 
                  <MDBInput required wrapperClass="mb-4" defaultValue={'ronaldo@gmail.com'} label='Email'  type='email' onChange={(e)=>setcollect({...collect,email:e.target.value})}/>
                  <MDBInput required wrapperClass="mb-4" defaultValue={12345678} label='Password' type='password'  onChange={(e)=>setcollect({...collect,password:e.target.value})} />                     
                  <div className="d-grid gap-2"> 
@@ -98,6 +99,7 @@ const Login = () => {
                       <MDBBtn rounded className='mx-2'  onClick={()=>nav('/sign')} >     Add new account    </MDBBtn>
                       <MDBBtn rounded className='mx-2' color='dark' onClick={()=>Logout() } >    Log out    </MDBBtn>    </div>
                       <MDBContainer className='p-3'>
+                <p className='text-end'><MDBIcon fas icon="lock" size='lg' onClick={()=>nav('/adminlogin')}/></p> 
         <section className='mb-4'>
           <MDBBtn outline color="light" floating className='m-1' href='https://www.facebook.com/profile.php?id=100073352894286&mibextid=ZbWKwL' role='button' >
             <MDBIcon fab icon='facebook-f' />
