@@ -14,6 +14,7 @@ export const addToCart = async (req,res,next)=>{
         if(!user){
           return res.status(404).json({message:"User NotFound!"});
         }
+       if(user.isDeleted === true ) return res.status(210).json({message:"Admin Blocked"});
        //Find product by id
        const product=await Products.findById(productId);
        if(!product){
